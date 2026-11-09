@@ -1,0 +1,124 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>YC Calculator</title>
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;min-height:100vh;display:grid;place-items:center;
+ background:#050914;color:white;font-family:Arial;
+}
+.app{
+ width:min(360px,94%);padding:22px;border-radius:24px;
+ background:#101a2b;border:1px solid #087bd5;
+ box-shadow:0 0 30px #087bd544;
+}
+h2{text-align:center;color:#42b5ff}
+#display{
+ background:#050a12;padding:25px 12px;
+ border-radius:12px;text-align:left;direction:ltr;
+ font-size:32px;min-height:85px;overflow:auto;
+ margin-bottom:15px;
+}
+.keys{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}
+button{
+ border:0;border-radius:12px;padding:19px 5px;
+ font-size:21px;background:#1b2d45;color:white;
+ cursor:pointer;
+}
+button:active{filter:brightness(1.5)}
+.op{background:#064d82}
+.fn{background:#263c54;color:#65c5ff}
+.equal{background:#087fd1}
+.zero{grid-column:span 2}
+</style>
+</head>
+<body>
+<div class="app">
+<h2>YC CALCULATOR</h2>
+<div id="display">0</div>
+<div class="keys">
+<button class="fn" onclick="clearAll()">AC</button>
+<button class="fn" onclick="del()">⌫</button>
+<button class="fn" onclick="percent()">%</button>
+<button class="op" onclick="add('/')">÷</button>
+
+<button onclick="add('7')">7</button>
+<button onclick="add('8')">8</button>
+<button onclick="add('9')">9</button>
+<button class="op" onclick="add('*')">×</button>
+
+<button onclick="add('4')">4</button>
+<button onclick="add('5')">5</button>
+<button onclick="add('6')">6</button>
+<button class="op" onclick="add('-')">−</button>
+
+<button onclick="add('1')">1</button>
+<button onclick="add('2')">2</button>
+<button onclick="add('3')">3</button>
+<button class="op" onclick="add('+')">+</button>
+
+<button class="zero" onclick="add('0')">0</button>
+<button onclick="add('.')">.</button>
+<button class="equal" onclick="calculate()">=</button>
+</div>
+</div>
+
+<script>
+let expression='';
+const display=document.getElementById('display');
+
+function update(){
+ display.textContent=expression||'0';
+}
+function add(value){
+ if(/[+\-*/]/.test(value)&&!expression&&value!=='-')return;
+ if(/[+\-*/]$/.test(expression)&&/[+\-*/]/.test(value)){
+ expression=expression.slice(0,-1);
+ }
+ expression+=value;
+ update();
+}
+function clearAll(){
+ expression='';
+ update();
+}
+function del(){
+ expression=expression.slice(0,-1);
+ update();
+}
+function percent(){
+ if(!expression)return;
+ const match=expression.match(/(\d+\.?\d*)$/);
+ if(match){
+ expression=expression.slice(0,-match[1].length)+
+ (Number(match[1])/100);
+ update();
+ }
+}
+function calculate(){
+ if(!expression)return;
+ if(!/^[0-9+\-*/.() ]+$/.test(expression))return;
+ try{
+ const result=Function('"use strict";return ('+expression+')')();
+ if(!Number.isFinite(result))throw Error();
+ expression=String(Number(result.toPrecision(12)));
+ update();
+ }catch{
+ display.textContent='Error';
+ expression='';
+ }
+}
+document.addEventListener('keydown',e=>{
+ if(/^[0-9.]$/.test(e.key))add(e.key);
+ else if('+-*/'.includes(e.key))add(e.key);
+ else if(e.key==='Enter')calculate();
+ else if(e.key==='Backspace')del();
+ else if(e.key==='Escape')clearAll();
+});
+</script>
+</body>
+</html>
