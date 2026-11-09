@@ -1,0 +1,14 @@
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+<rect width="512" height="512" rx="110" fill="#071321"/>
+<rect x="90" y="75" width="332" height="362" rx="40" fill="#10243a" stroke="#168de0" stroke-width="8"/>
+<text x="256" y="180" text-anchor="middle" fill="#65c5ff" font-size="65" font-weight="bold">YC</text>
+<g fill="#168de0">
+<rect x="130" y="220" width="70" height="65" rx="15"/>
+<rect x="220" y="220" width="70" height="65" rx="15"/>
+<rect x="310" y="220" width="70" height="65" rx="15"/>
+<rect x="130" y="310" width="70" height="65" rx="15"/>
+<rect x="220" y="310" width="70" height="65" rx="15"/>
+<rect x="310" y="310" width="70" height="65" rx="15"/>
+</g>
+</svg>
